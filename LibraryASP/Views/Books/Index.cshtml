@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LibraryASP.Models.Book>
+﻿@model LibraryASP.ViewModels.PaginatedResultViewModel<LibraryASP.Models.Book>
 
 @{
     ViewBag.Title = "Index";
@@ -13,7 +13,8 @@
 @using (Html.BeginForm("Index", "Books",FormMethod.Get))
 {
     <div class="d-flex">
-        <input class="form-control" name="search" value="@ViewData["search"]"> 
+        @Html.HiddenFor(model => model.page)
+        <input class="form-control" name="search" value="@Model.search">
         <input type="submit" value="Cerca" class="btn btn-primary" />
     </div>
 }
@@ -21,21 +22,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.results[0].Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Author)
+            @Html.DisplayNameFor(model => model.results[0].Author)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.results[0].Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
+            @Html.DisplayNameFor(model => model.results[0].Category.Name)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.results) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
@@ -58,3 +59,9 @@
 }
 
 </table>
+<ul class="pagination">
+    @for (int i = 1; i <= Model.pages; i++)
+    {
+        <li class="page-item @( i==Model.page ? "active" : "" )"> @Html.ActionLink(i.ToString(), "Index", new { page = i, search=Model.search }, new { @class = "page-link" }) </li>
+    }
+</ul>

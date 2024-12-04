@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LibraryASP.Models;
+using LibraryASP.ViewModels;
 
 namespace LibraryASP.Controllers
 {
@@ -18,7 +19,7 @@ namespace LibraryASP.Controllers
         private LibraryEntities db = new LibraryEntities();
 
         // GET: Books
-        public async Task<ActionResult> Index(string search="")
+        public async Task<ActionResult> Index(string search="", int page=1)
         {
             /*var books = db.Books.Include(b => b.Category);
 
@@ -27,14 +28,34 @@ namespace LibraryASP.Controllers
 
             return View(await books.ToListAsync());*/
 
+            if (page <= 0) return RedirectToAction("Index", new { page = 1, search = search });
+            const int pageSize = 10;
+
+            var count = await db.Books
+            .Where(b => search == "" || b.Title.Contains(search) || b.Author.Contains(search))
+            .CountAsync();
+
+            var pages = (int)Math.Ceiling((double)count / pageSize);
+
+            if (page > pages) return RedirectToAction("Index", new { page = 1, search = search }); ;
+
             var result = await db.Books
                 .Include(i=>i.Category)
                 .Where(b => search=="" || b.Title.Contains(search) || b.Author.Contains(search))
+                .OrderBy(ob => ob.Title)
+                .Skip((page-1)*pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            ViewData["search"] = search;
 
-            return View(result);
+            //ViewData["search"] = search;
+
+            return View(new PaginatedResultViewModel<Book>() { 
+                results = result,
+                page = page,
+                pages = pages,
+                search = search
+            });
         }
 
         /*[HttpPost]
