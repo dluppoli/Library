@@ -44,7 +44,7 @@ namespace LibraryASP.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(int id, Category newData)
         {
-            if( newData.Name.Length > 25 ) return HttpNotFound();
+            if( !ModelState.IsValid ) return HttpNotFound();
 
             using (LibraryEntities context = new LibraryEntities())
             {
@@ -68,7 +68,7 @@ namespace LibraryASP.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Category newData)
         {
-            if (newData == null || newData.Name.Length > 25) return HttpNotFound();
+            if (newData == null || !ModelState.IsValid) return HttpNotFound();
 
             using (LibraryEntities context = new LibraryEntities())
             {

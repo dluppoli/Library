@@ -18,3 +18,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.form-control.input-validation-error
+{
+    border: 1px solid red;
+}
