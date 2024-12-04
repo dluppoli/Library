@@ -11,6 +11,7 @@ using LibraryASP.Models;
 
 namespace LibraryASP.Controllers
 {
+    [RoutePrefix("Books")]
     public class BooksController : Controller
     {
         private LibraryEntities db = new LibraryEntities();
@@ -30,8 +31,17 @@ namespace LibraryASP.Controllers
                 .Where(b => search=="" || b.Title.Contains(search) || b.Author.Contains(search))
                 .ToListAsync();
 
+            ViewData["search"] = search;
+
             return View(result);
         }
+
+        /*[HttpPost]
+        public ActionResult Search(string search = "")
+        {
+            return RedirectToAction("Index", new { search = search });
+        }*/
+
 
         // GET: Books/Details/5
         public async Task<ActionResult> Details(int? id)

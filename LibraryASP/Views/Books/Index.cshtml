@@ -9,6 +9,15 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Books",FormMethod.Get))
+{
+    <div class="d-flex">
+        <input class="form-control" name="search" value="">    " />
+        <input type="submit" value="Cerca" class="btn btn-primary" />
+    </div>
+}
+
 <table class="table">
     <tr>
         <th>
