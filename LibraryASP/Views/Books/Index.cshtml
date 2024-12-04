@@ -13,7 +13,7 @@
 @using (Html.BeginForm("Index", "Books",FormMethod.Get))
 {
     <div class="d-flex">
-        <input class="form-control" name="search" value="">    " />
+        <input class="form-control" name="search" value="@ViewData["search"]"> 
         <input type="submit" value="Cerca" class="btn btn-primary" />
     </div>
 }

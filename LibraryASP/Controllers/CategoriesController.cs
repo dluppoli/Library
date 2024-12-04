@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace LibraryASP.Controllers
 {
+    [Authorize]
     [RoutePrefix("Categories")]
     public class CategoriesController : Controller
     {

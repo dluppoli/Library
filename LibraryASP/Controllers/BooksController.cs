@@ -11,6 +11,7 @@ using LibraryASP.Models;
 
 namespace LibraryASP.Controllers
 {
+    [Authorize]
     [RoutePrefix("Books")]
     public class BooksController : Controller
     {
