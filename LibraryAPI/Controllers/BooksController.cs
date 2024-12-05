@@ -15,7 +15,7 @@ namespace LibraryAPI.Controllers
 {
     public class BooksController : ApiController
     {
-        public async Task<List<BookDto>> Get()
+        public async Task<List<BookDto>> Get(int page=1, string search="")
         {
             var conf = new MapperConfiguration(c => c.AddProfile<DtoMappingProfile>());
             using (var context = new LibraryEntities())
