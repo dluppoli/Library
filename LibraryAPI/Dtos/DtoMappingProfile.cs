@@ -15,7 +15,9 @@ namespace LibraryAPI.Dtos
             CreateMap<UserDto, User>();
 
             CreateMap<Book, BookDto>();
-            CreateMap<BookDto, Book>();
+            CreateMap<BookDto, Book>()
+                .ForMember(d=> d.CategoryId, m=> m.MapFrom( s=>s.Category.Id) )
+                .ForMember(d => d.Category, m => m.Ignore());
 
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
