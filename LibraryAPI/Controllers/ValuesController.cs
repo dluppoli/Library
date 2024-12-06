@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace LibraryAPI.Controllers
 {
+    [AllowAnonymous]
     public class ValuesController : ApiController
     {
         // GET api/values
